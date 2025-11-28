@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<h1>Ghana General Knowledge Quiz</h1>
+
+<form method="POST">
+
+    <label><strong>Your Name:</strong></label><br>
+    <input type="text" name="username" required><br><br>
+
+    {% for q in range(questions|length) %}
+        <p><strong>{{ questions[q] }}</strong></p>
+
+        {% for opt in options[q] %}
+            <label>
+                <input type="radio" name="q{{ q }}" value="{{ opt[0] }}" required>
+                {{ opt }}
+            </label><br>
+        {% endfor %}
+        <hr>
+    {% endfor %}
+
+    <button type="submit">Submit Quiz</button>
+
+</form>
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Results</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<h1>Quiz Results</h1>
+
+<h2>{{ username }}, you scored <span class="score">{{ score }}%</span></h2>
+
+<h3>Review Your Answers</h3>
+
+<ul>
+    {% for i in range(questions|length) %}
+        <li>
+            <strong>{{ questions[i] }}</strong><br>
+            Your answer: {{ guesses[i] }}<br>
+            Correct answer: {{ answers[i] }}
+        </li>
+        <br>
+    {% endfor %}
+</ul>
+
+<a href="/history"><button>View History</button></a>
+<a href="/"><button>Home</button></a>
+
+</body>
+</html>
+
+
+
