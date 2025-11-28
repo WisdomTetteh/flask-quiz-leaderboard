@@ -1,6 +1,11 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import os 
+from dotenv import load_dotenv
+
+# Load environment variables (needed to read the PORT variable from Render)
+load_dotenv() 
 
 app = Flask(__name__)
 
@@ -8,9 +13,11 @@ app = Flask(__name__)
 # DEPLOYMENT & DATABASE SETUP
 # ------------------------
 # 1. *** IMPORTANT: Set a secret key for session security ***
-#    CHANGE THIS TO A LONG, RANDOM, AND COMPLEX STRING BEFORE DEPLOYMENT!
+#    CHANGE THIS TO A LONG, RANDOM, AND COMPLEX STRING BEFORE DEPLOYMENT!
 app.config["SECRET_KEY"] = "wisdom@13071998"
 
+# Note: The sqlite:///quiz.db will create a new, empty database on every deploy on Render.
+# For persistent data, you would need to use a hosted database like Postgres.
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///quiz.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
@@ -49,7 +56,7 @@ options = [
 answers = ["D", "C", "B", "C", "B"]
 
 # ------------------------
-# ROUTES (Updated /history)
+# ROUTES
 # ------------------------
 
 @app.route("/")
@@ -100,8 +107,7 @@ def history():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
-
-
-
-
+    # Get the PORT environment variable from Render (default to 5000 if not set)
+    port = int(os.environ.get('PORT', 5000)) 
+    # Use the Flask development server instead of Gunicorn
+    app.run(host='0.0.0.0', port=port, debug=False)
